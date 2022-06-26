@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.nio.file.Path;
 
 @SpringBootApplication
-@RestController
 @EnableConfigurationProperties(DataStaxAstraProperties.class)
 public class BetterReadsApp {
 
@@ -33,4 +32,6 @@ public class BetterReadsApp {
 		Path bundle = astraProperties.getSecureConnectBundle().toPath();
 		return builder -> builder.withCloudSecureConnectBundle(bundle);
 	}
+
+
 }
