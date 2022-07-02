@@ -12,17 +12,14 @@ public class UserBooks {
 
     @PrimaryKey
     private UserBooksPrimaryKey key;
-    @Id
-    @PrimaryKeyColumn(name = "user_id", ordinal = 0, type = PrimaryKeyType.PARTITIONED)
-    private String userId;
-
-    @Id
-    @PrimaryKeyColumn(name = "book_id", ordinal = 1, type = PrimaryKeyType.PARTITIONED)
-    private String bookId;
 
     @Column("started_date")
     @CassandraType(type = CassandraType.Name.DATE)
-    private LocalDate CompleteDate;
+    private LocalDate startedDate;
+
+    @Column("completed_date")
+    @CassandraType(type = CassandraType.Name.DATE)
+    private LocalDate completedDate;
 
     @Column("reading_status")
     @CassandraType(type = CassandraType.Name.TEXT)
@@ -32,28 +29,28 @@ public class UserBooks {
     @CassandraType(type = CassandraType.Name.INT)
     private int rating;
 
-    public String getUserId() {
-        return userId;
+    public UserBooksPrimaryKey getKey() {
+        return key;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setKey(UserBooksPrimaryKey key) {
+        this.key = key;
     }
 
-    public String getBookId() {
-        return bookId;
+    public LocalDate getStartedDate() {
+        return startedDate;
     }
 
-    public void setBookId(String bookId) {
-        this.bookId = bookId;
+    public void setStartedDate(LocalDate startedDate) {
+        this.startedDate = startedDate;
     }
 
-    public LocalDate getCompleteDate() {
-        return CompleteDate;
+    public LocalDate getCompletedDate() {
+        return completedDate;
     }
 
-    public void setCompleteDate(LocalDate completeDate) {
-        CompleteDate = completeDate;
+    public void setCompletedDate(LocalDate completedDate) {
+        this.completedDate = completedDate;
     }
 
     public String getReadingStatus() {

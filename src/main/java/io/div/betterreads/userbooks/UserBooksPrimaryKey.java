@@ -8,11 +8,9 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
 @PrimaryKeyClass
 public class UserBooksPrimaryKey {
 
-    @Id
     @PrimaryKeyColumn(name = "user_id", ordinal = 0, type = PrimaryKeyType.PARTITIONED)
     private String userId;
 
-    @Id
     @PrimaryKeyColumn(name = "book_id", ordinal = 1, type = PrimaryKeyType.PARTITIONED)
     private String bookId;
 
