@@ -1,7 +1,8 @@
 package io.div.betterreads.home;
 
-import io.div.betterreads.user.BooksByUser;
-import io.div.betterreads.user.BooksByUserRepository;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.cassandra.core.query.CassandraPageRequest;
 import org.springframework.data.domain.Slice;
@@ -11,8 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import io.div.betterreads.user.BooksByUser;
+import io.div.betterreads.user.BooksByUserRepository;
 
 @Controller
 public class HomeController {
@@ -24,14 +25,13 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(@AuthenticationPrincipal OAuth2User principal, Model model) {
-        if (principal == null || principal.getAttribute("login") == null){
+        if (principal == null || principal.getAttribute("login") == null) {
             return "index";
         }
 
         String userId = principal.getAttribute("login");
         Slice<BooksByUser> booksSlice = booksByUserRepository.findAllById(userId, CassandraPageRequest.of(0, 100));
         List<BooksByUser> booksByUser = booksSlice.getContent();
-
         booksByUser = booksByUser.stream().distinct().map(book -> {
             String coverImageUrl = "/images/no-image.png";
             if (book.getCoverIds() != null & book.getCoverIds().size() > 0) {
@@ -40,7 +40,6 @@ public class HomeController {
             book.setCoverUrl(coverImageUrl);
             return book;
         }).collect(Collectors.toList());
-
         model.addAttribute("books", booksByUser);
         return "home";
 
